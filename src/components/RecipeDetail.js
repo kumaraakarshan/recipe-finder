@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import './RecipeDetail.css'; 
 
 const RecipeDetail = () => {
   const { id } = useParams();
@@ -10,12 +11,14 @@ const RecipeDetail = () => {
   const APP_KEY = 'a222d6e40e1cb036fc3dd604062260b7';
 
   useEffect(() => {
-    // Fetch the specific recipe based on the ID
+    console.log('Fetching recipe for ID:', id);
     const fetchRecipe = async () => {
       try {
+        console.log('Making API request for ID:', id);
         const response = await axios.get(
           `https://api.edamam.com/search?q=${id}&app_id=${APP_ID}&app_key=${APP_KEY}`
         );
+        console.log('API Response:', response.data);
         if (response.data.hits.length > 0) {
           setRecipe(response.data.hits[0].recipe);
         }
@@ -25,10 +28,10 @@ const RecipeDetail = () => {
     };
 
     fetchRecipe();
-  }, [id]); // Trigger the fetch when the 'id' parameter changes
+  }, [id]);
 
   return (
-    <div>
+    <div className="recipe-detail">
       {recipe ? (
         <div>
           <h2>{recipe.label}</h2>

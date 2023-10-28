@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import './Favorites.css'; 
 
 const Favorites = () => {
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
 
-  // Load favorite recipes from local storage and display them.
+  useEffect(() => {
+    const storedFavorites = localStorage.getItem('favoriteRecipes');
+    if (storedFavorites) {
+      const parsedFavorites = JSON.parse(storedFavorites);
+      setFavoriteRecipes(parsedFavorites);
+    }
+  }, []);
 
   return (
-    <div>
+    <div className="favorites">
       <h2>My Favorite Recipes</h2>
       <ul>
         {favoriteRecipes.map((recipe) => (
